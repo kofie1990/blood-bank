@@ -12,7 +12,7 @@ const DonorDetail = () => {
   if (!donor) {
     return <div>Donor not found</div>;
   }
-
+  
   return (
     <div>
       <Link to="/donors" className="text-blue-600 hover:text-blue-800 mb-4 inline-block">&larr; Back to Donors</Link>
