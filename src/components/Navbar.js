@@ -42,7 +42,7 @@ const Navbar = ({ isOpen, onClose }) => {
       <div
         className={`fixed inset-y-0 left-0 w-72 bg-gradient-to-br from-red-600 via-red-700 to-red-800 text-white shadow-2xl transform ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
-        } transition-all duration-300 ease-in-out z-30`}
+        } transition-all duration-300 ease-in-out z-30 bg-opacity-80 backdrop-filter backdrop-blur-lg`}
       >
         <div className="flex justify-between items-center p-6 bg-red-900 bg-opacity-50 backdrop-filter backdrop-blur-lg">
           <h2 className="text-2xl font-bold text-red-100">Blood Bank</h2>

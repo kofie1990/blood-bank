@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Layout from './components/Layout';
 import Dashboard from './components/Dashboard';
@@ -10,16 +10,22 @@ import Login from './components/Login';
 import Register from './components/Register';
 import ProtectedRoute from './components/ProtectedRoute';
 import useStore from './store/store';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 function App() {
   const user = useStore(state => state.user);
 
+  useEffect(() => {
+    AOS.init();
+  }, []);
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={!user ? <Register /> : <Navigate to="/dashboard" />} />
-        <Route path="/login" element={!user ? <Login /> : <Navigate to="/dashboard" />} />
-        <Route path="/dashboard" element={
+        <Route path="/login" element={!user ? <Login /> : <Navigate to="/" />} />
+        <Route path="/register" element={!user ? <Register /> : <Navigate to="/" />} />
+        <Route path="/" element={
           <ProtectedRoute>
             <Layout>
               <Dashboard />
