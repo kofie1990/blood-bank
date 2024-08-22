@@ -1,5 +1,4 @@
-import React from 'react';
-import useStore from '../store/store';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaUsers, FaTint, FaBoxes } from 'react-icons/fa';
@@ -12,7 +11,7 @@ const DashboardCard = ({ title, count, link, icon }) => (
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.5 }}
   >
-<Link to={link} className="block bg-gray-200 p-6 rounded-xl shadow-lg hover:bg-gradient-to-br hover:from-blue-100 hover:to-red-300 hover:text-white transition-colors duration-300">
+    <Link to={link} className="block bg-gray-200 p-6 rounded-xl shadow-lg hover:bg-gradient-to-br hover:from-blue-100 hover:to-red-300 hover:text-white transition-colors duration-300">
       <div className="flex items-center mb-4">
         <div className="bg-blue-100 p-3 rounded-full mr-4">
           {icon}
@@ -31,13 +30,67 @@ const DashboardCard = ({ title, count, link, icon }) => (
 );
 
 const Dashboard = () => {
-  const { donors, donations, bloodSupply } = useStore();
+  const [donors, setDonors] = useState([]);
+  const [donations, setDonations] = useState([]);
+  const [bloodSupply, setBloodSupply] = useState([]);
+  const totalBloodQuantity = bloodSupply.reduce((sum, supply) => sum + supply.quantity, 0);
 
   const cards = [
     { title: "Total Donors", count: donors.length, link: "/donors", icon: <FaUsers className="text-blue-500 text-2xl" /> },
     { title: "Total Donations", count: donations.length, link: "/donations", icon: <FaTint className="text-red-500 text-2xl" /> },
-    { title: "Blood Supply Units", count: bloodSupply.length, link: "/blood-supply", icon: <FaBoxes className="text-green-500 text-2xl" /> },
+    { title: "Blood Supply Units (ml)", count: totalBloodQuantity, link: "/blood-supply", icon: <FaBoxes className="text-green-500 text-2xl" /> },
   ];
+
+  const fetchDonors = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/api/donors', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setDonors(data);
+    } catch (error) {
+      console.error('Error fetching donors:', error);
+    }
+  };
+
+  const fetchDonations = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/api/donations', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setDonations(data);
+    } catch (error) {
+      console.error('Error fetching donations:', error);
+    }
+  };
+
+  const fetchBloodSupply = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch('http://localhost:3000/api/blood-supply', {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      setBloodSupply(data);
+    } catch (error) {
+      console.error('Error fetching blood supply:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDonors();
+    fetchDonations();
+    fetchBloodSupply();
+  }, []);
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-red-300 to-blue-100 p-4 sm:p-6 md:p-8 flex flex-col">

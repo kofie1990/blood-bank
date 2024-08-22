@@ -1,12 +1,11 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import useStore from '../store/store';
 
 const ProtectedRoute = ({ children }) => {
-  const user = useStore(state => state.user);
   const location = useLocation();
+  const token = localStorage.getItem('token');
 
-  if (!user) {
+  if (!token) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

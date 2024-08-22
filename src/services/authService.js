@@ -1,10 +1,4 @@
 // This is a mock service. In a real application, these operations would interact with a backend server.
-
-const users = [
-  { id: 1, username: 'admin', password: 'password', role: 'admin' },
-  { id: 2, username: 'user', password: 'password', role: 'user' },
-];
-
 export const login = (username, password) => {
   const user = users.find(u => u.username === username && u.password === password);
   if (user) {

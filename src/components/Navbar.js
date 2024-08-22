@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { XIcon, HomeIcon, UserGroupIcon, HeartIcon, BeakerIcon, LogoutIcon } from '@heroicons/react/outline';
-import useStore from '../store/store';
+
 
 const NavItem = ({ to, icon: Icon, children, onClick }) => {
   const location = useLocation();
@@ -25,8 +25,21 @@ const NavItem = ({ to, icon: Icon, children, onClick }) => {
   );
 };
 
+const useLogout = () => {
+  const navigate = useNavigate();
+
+  const logout = () => {
+    // Remove the token from local storage
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
+  return logout;
+};
+
+
 const Navbar = ({ isOpen, onClose }) => {
-  const logout = useStore(state => state.logout);
+  const logout = useLogout();
 
   return (
     <>
