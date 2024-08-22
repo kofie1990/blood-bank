@@ -1,21 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const Donor = require('../models/Donor'); // Adjust the path as necessary
+const donorsController = require('../controllers/donorsController');
+const verifyToken = require('../middleware/verifyToken');
 
-// @route   POST /api/donors
-// @desc    Add a new donor
-// @access  Public (you might want to make this private in a real application)
-router.post('/', async (req, res) => {
-  try {
-    const newDonor = new Donor(req.body);
-    const donor = await newDonor.save();
-    res.json(donor);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
+// Get all donors
+router.get('/', donorsController.getDonors);
 
-// Add other routes (GET, PUT, DELETE) as necessary
+// Create a new donor
+router.post('/', donorsController.createDonor);
+
+// Update a donor
+router.put('/:id', donorsController.updateDonor);
+
+// Delete a donor
+router.delete('/:id', donorsController.deleteDonor);
 
 module.exports = router;

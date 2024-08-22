@@ -1,38 +1,18 @@
-const router = require('express').Router();
-let BloodSupply = require('../models/BloodSupply');
+const express = require('express');
+const router = express.Router();
+const bloodSupplyController = require('../controllers/bloodSupplyController');
+const verifyToken = require('../middleware/verifyToken');
 
-router.route('/').get((req, res) => {
-  BloodSupply.find()
-    .then(supplies => res.json(supplies))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+// Get all blood supplies
+router.get('/', bloodSupplyController.getBloodSupply);
 
-router.route('/add').post((req, res) => {
-  const { bloodType, quantity } = req.body;
-  const newSupply = new BloodSupply({ bloodType, quantity });
+// Add a new blood supply
+router.post('/', bloodSupplyController.createBloodSupply);
 
-  newSupply.save()
-    .then(() => res.json('Blood supply added!'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+// Update a blood supply
+router.put('/:id', bloodSupplyController.updateBloodSupply);
 
-router.route('/update/:id').put((req, res) => {
-  BloodSupply.findById(req.params.id)
-    .then(supply => {
-      supply.bloodType = req.body.bloodType;
-      supply.quantity = req.body.quantity;
-
-      supply.save()
-        .then(() => res.json('Blood supply updated!'))
-        .catch(err => res.status(400).json('Error: ' + err));
-    })
-    .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/:id').delete((req, res) => {
-  BloodSupply.findByIdAndDelete(req.params.id)
-    .then(() => res.json('Blood supply deleted.'))
-    .catch(err => res.status(400).json('Error: ' + err));
-});
+// Delete a blood supply
+router.delete('/:id', bloodSupplyController.deleteAllBloodSupply);
 
 module.exports = router;
