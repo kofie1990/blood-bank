@@ -11,7 +11,6 @@ const DonorsList = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Fetch donors from the backend (MongoDB Atlas)
     const fetchDonors = async () => {
       try {
         const token = localStorage.getItem('token');
@@ -29,7 +28,7 @@ const DonorsList = () => {
     };
 
     fetchDonors();
-  }, []);
+  }, [donors]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -95,6 +94,10 @@ const DonorsList = () => {
     setNewDonor({ name: "", bloodType: "", contact: "" });
   };
 
+  const startEditing = (donor) => {
+    setEditingDonor(donor);
+  };
+
   return (
     <div className="flex-grow flex flex-col bg-gradient-to-br from-red-300 to-blue-100 p-4 sm:p-6 overflow-hidden">
       <motion.h1
@@ -107,7 +110,7 @@ const DonorsList = () => {
       </motion.h1>
 
       <motion.form
-        onSubmit={handleSubmit}
+        onSubmit={editingDonor ? handleEdit : handleSubmit}
         className="mb-6 bg-white p-4 sm:p-6 rounded-lg shadow-md"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -213,7 +216,7 @@ const DonorsList = () => {
 
                   <div className="mt-2 flex items-center text-sm sm:mt-0">
                     <motion.button
-                      onClick={handleEdit}
+                      onClick={() => startEditing(donor)}
                       className="text-blue-600 hover:text-blue-800 mr-4 flex items-center transition-colors duration-300"
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}

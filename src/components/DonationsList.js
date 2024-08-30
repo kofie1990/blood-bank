@@ -129,10 +129,10 @@ const DonationsList = () => {
 
     try {
       const donation = {
-        donor: newDonation.donorId, // Ensure this is a valid ObjectId
-        date: new Date(newDonation.date), // Ensure this is a valid Date
+        donor: newDonation.donorId,
+        date: new Date(newDonation.date),
         bloodType: donor.bloodType,
-        amount: parseInt(newDonation.amount, 10), // Ensure amount is a number
+        amount: parseInt(newDonation.amount, 10),
       };
 
       // Update blood supply

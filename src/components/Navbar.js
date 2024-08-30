@@ -29,7 +29,6 @@ const useLogout = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    // Remove the token from local storage
     localStorage.removeItem('token');
     navigate('/login');
   };
