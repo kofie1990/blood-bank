@@ -1,4 +1,3 @@
-//app.js
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -36,14 +35,6 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'An error occurred. Please try again.' });
 });
 
-// Serve static assets if in production
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../build'));
-
-  app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-  });
-}
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Route not found' });
