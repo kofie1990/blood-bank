@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const donationsController = require('../controllers/donationsController');
-const verifyToken = require('../middleware/verifyToken');
 
 // POST route to create a new donation
 router.post('/', donationsController.createDonation);

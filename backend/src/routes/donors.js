@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const donorsController = require('../controllers/donorsController');
-const verifyToken = require('../middleware/verifyToken');
 
 // Get all donors
 router.get('/', donorsController.getDonors);

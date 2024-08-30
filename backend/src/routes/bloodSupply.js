@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const bloodSupplyController = require('../controllers/bloodSupplyController');
-const verifyToken = require('../middleware/verifyToken');
 
 // Get all blood supplies
 router.get('/', bloodSupplyController.getBloodSupply);
